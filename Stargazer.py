@@ -52,7 +52,7 @@ class Stargazer:
     def get_lists(self):
         url = f"https://github.com/{self.username}?tab=stars"
         response = requests.get(url)
-        pattern = f'href="/stars/{self.username}/lists/(\S+)".*?<h3 class="f4 text-bold no-wrap mr-3">(.*?)</h3>'
+        pattern = fr'href="/stars/{self.username}/lists/(\S+)"[\s\S]*?<h3 class=".*?">(.*?)</h3>'
         match = re.findall(pattern, response.text, re.DOTALL)
         self.star_lists = [(url, name.strip()) for url, name in match]
         return self.star_lists
@@ -156,13 +156,13 @@ class Stargazer:
             unique_slug = slug if count == 0 else f"{slug}-{count}"
             anchors[slug] = count + 1
             toc_lines.append(f"- [{section}](#{unique_slug})")
-        toc_lines.append("")
+        toc_lines.append("\n")
         return "\n".join(toc_lines)
 
     def slugify(self, text):
         slug = text.strip().lower()
         slug = re.sub(r"[^\w\s-]", "", slug)
-        slug = re.sub(r"\s+", "-", slug)
+        slug = re.sub(r"\s", "-", slug)
         return slug or "section"
 
 
