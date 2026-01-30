@@ -65,7 +65,7 @@ class Stargazer:
                 username=self.username, list_name=list_name, page=page
             )
             response = requests.get(current_url)
-            pattern = r'<h3>\s*<a href="[^"]*">\s*<span class="text-normal">(\S+) / </span>(\S+)\s+</a>\s*</h3>'
+            pattern = r'<h2 class="h3">\s*<a href="[^"]*">\s*<span class="text-normal">(\S+) / </span>(\S+)\s*</a>\s*</h2>'
             match = re.findall(pattern, response.text)
             if not match:
                 break
